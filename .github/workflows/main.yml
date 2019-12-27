@@ -14,7 +14,8 @@ jobs:
       with:
             host: ${{ secrets.SCSHARK_HOST }}
             username: ${{ secrets.SCSHARK_USER }}
-            password: ${{ secrets.SCSHARK_PASSWORD }}
+            key: ${{ secrets.SCSHARK_SSH_KEY }}
             debug: true
-            script: whoami
+            script: |
+                    whoami
                     ll
