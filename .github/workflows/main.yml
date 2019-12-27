@@ -17,5 +17,5 @@ jobs:
             key: ${{ secrets.SCSHARK_SSH_KEY }}
             debug: true
             script: |
-                    whoami
-                    ll
+                  whoami
+                  ls -al
