@@ -10,11 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: ssh deploy
-      uses: easingthemes/ssh-deploy@v2.0.7
+      uses: appleboy/ssh-action@master
       env:
-            SSH_PRIVATE_KEY: ${{ secrets.SCSHARK_SSH_KEY }}
-            SOURCE: "dist/"
-            REMOTE_HOST: ${{ secrets.SCSHARK_HOST }}
-            REMOTE_USER: ${{ secrets.SCSHARK_USER }}
-            TARGET: ${{ secrets.SCSHARK_HkAirLine_TARGET }}
-
+            host: ${{ secrets.SCSHARK_HOST }}
+            username: ${{ secrets.SCSHARK_USER }}
+            key: ${{ secrets.SCSHARK_SSH_KEY }}
+            script: whoami
