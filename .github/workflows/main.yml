@@ -16,3 +16,4 @@ jobs:
             username: ${{ secrets.SCSHARK_USER }}
             password: ${{ secrets.SCSHARK_PASSWORD }}
             script: whoami
+                    ll
