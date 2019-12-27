@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: ssh deploy
       uses: appleboy/ssh-action@master
-      env:
+      with:
             host: ${{ secrets.SCSHARK_HOST }}
             username: ${{ secrets.SCSHARK_USER }}
             password: ${{ secrets.SCSHARK_PASSWORD }}
