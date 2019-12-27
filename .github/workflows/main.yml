@@ -16,5 +16,5 @@ jobs:
             SOURCE: "dist/"
             REMOTE_HOST: ${{ secrets.SCSHARK_HOST }}
             REMOTE_USER: ${{ secrets.SCSHARK_USER }}
-            TARGET: ${{ secrets.SCSHARK_TARGET }}
+            TARGET: ${{ secrets.SCSHARK_HkAirLine_TARGET }}
 
