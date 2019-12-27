@@ -17,5 +17,7 @@ jobs:
             key: ${{ secrets.SCSHARK_SSH_KEY }}
             debug: true
             script: |
-                  whoami
-                  ls -al
+                cd ${{ secrets.SCSHARK_HkAirLine_TARGET }}
+                git pull
+                  
+                  
