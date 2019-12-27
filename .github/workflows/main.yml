@@ -14,5 +14,5 @@ jobs:
       env:
             host: ${{ secrets.SCSHARK_HOST }}
             username: ${{ secrets.SCSHARK_USER }}
-            key: ${{ secrets.SCSHARK_SSH_KEY }}
+            password: ${{ secrets.SCSHARK_PASSWORD }}
             script: whoami
