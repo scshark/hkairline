@@ -12,8 +12,8 @@ jobs:
     - name: ssh deploy
       uses: appleboy/ssh-action@master
       env:
-            host: ${{ secrets.SCSHARK_HOST }}
-            username: ${{ secrets.SCSHARK_USER }}
-            password: ${{ secrets.SCSHARK_PASSWORD }}
+            host: 120.78.75.92
+            username: root
+            password: OUshaoHUI0520...
             script: whoami
                     ll
