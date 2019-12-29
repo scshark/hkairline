@@ -23,12 +23,15 @@ use Illuminate\Http\Request;
 
 //     Route::post('user', 'Api\UserController@getAuthUser');
 // });
-//$request = new Request();
-//
-//var_dump($request->);
-//die();
-header("Access-Control-Allow-Headers: *");
-header('Access-Control-Allow-Origin: *');
+
+Route::options('/{all}', function(Request $request) {
+    $origin = $request->header('ORIGIN', '*');
+    header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Origin, Access-Control-Request-Headers, SERVER_NAME, Access-Control-Allow-Headers, cache-control, token, X-Requested-With, Content-Type, Accept, Connection, Authorization,User-Agent, Cookie');
+})->where(['all' => '([a-zA-Z0-9-]|/)+']);
+
 Route::group(['prefix' => 'auth','middleware'=>['AllowOrigin']], function () {
     Route::post('login', 'Api\UserController@login');
     Route::post('logout', 'Api\UserController@logout');
