@@ -28,7 +28,7 @@ use Illuminate\Http\Request;
 //var_dump($request->);
 //die();
 header("Access-Control-Allow-Headers: *");
-
+header('Access-Control-Allow-Origin: *');
 Route::group(['prefix' => 'auth','middleware'=>['AllowOrigin']], function () {
     Route::post('login', 'Api\UserController@login');
     Route::post('logout', 'Api\UserController@logout');
