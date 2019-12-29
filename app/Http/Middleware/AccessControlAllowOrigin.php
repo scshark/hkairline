@@ -18,9 +18,13 @@ class AccessControlAllowOrigin
      */
     public function handle($request, Closure $next)
     {
+
+
+
+
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Credentials: true");
-        header("Access-Control-Allow-Methods: *");
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); //允许的请求类型
         header("Access-Control-Allow-Headers: *");
         header("Access-Control-Expose-Headers: *");
 

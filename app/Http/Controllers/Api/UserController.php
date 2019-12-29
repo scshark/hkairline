@@ -47,6 +47,8 @@ class UserController extends Controller
     public function userInfo()
     {
 
+
+
         $user = auth('api')->user()->toArray();
         return response()->json([
             'code' => 200,
