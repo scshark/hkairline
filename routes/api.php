@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 
 //     Route::post('user', 'Api\UserController@getAuthUser');
 // });
-Route::group(['prefix' => 'auth','middleware'=>['AccessControlAllowOrigin']], function () {
+Route::group(['prefix' => 'auth','middleware'=>['AllowOrigin']], function () {
     Route::post('login', 'Api\UserController@login');
     Route::post('logout', 'Api\UserController@logout');
     Route::post('refresh', 'Api\UserController@refresh');
