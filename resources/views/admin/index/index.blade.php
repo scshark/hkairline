@@ -154,14 +154,14 @@
                 {field: 'id', title: 'ID', width:80,  fixed: 'left'},
                 {field: 'account', title: '用户账号'},
                 {field: 'created_at', title: '创建时间'},
-                {field: '', title: '状态',templet:function (d) {
-                        if (d.status == 1) {
-                            return '启用';
-                        } else {
-                            return '禁用';
-                        }
-                    }
-                },
+                // {field: '', title: '状态',templet:function (d) {
+                //         if (d.status == 1) {
+                //             return '启用';
+                //         } else {
+                //             return '禁用';
+                //         }
+                //     }
+                // },
                 {field:'status', title:'状态', unresize: true, templet: function(d){
                 
                     if(d.status == 1){

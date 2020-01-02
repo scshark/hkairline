@@ -12,6 +12,9 @@
         height:auto !important;
         
     }
+    .layui-form-item{
+        margin-bottom: 10px;
+    }
     </style>
 </head>
 <body class="layui-layout-body">
@@ -54,11 +57,11 @@
 
             <div class="clearfix">
             
-                <div class="test-table-reload-btn" style="margin-bottom: 10px;float:left">
+                <div class="test-table-reload-btn" id="import_excel" style="margin-bottom: 10px;float:left">
                     <button class="layui-btn">导入航线</button>
                 </div>
                 <div class="test-table-reload-btn" style="margin-bottom: 10px;float:right">
-                    航线查询：
+                    目的地：
                     <div class="layui-inline" style="width:350px;">
                         <input class="layui-input" name="keyWord" autocomplete="off" >
                     </div>
@@ -95,24 +98,258 @@
     </div>
 
 
-    <div id="resetPasswordBox" style="display: none; padding: 10px;">
-        <div class="layui-form"  style="padding: 20px 0 0 0;">
+    <div id="resetPasswordBox" style="display: none; padding: 10px;padding-left: 30px;">
+        <div class="layui-form" >
             <input type="hidden" name="member_id" >
             <div class="layui-form-item">
-                <label class="layui-form-label">账号:</label>
-                <div class="layui-input-inline">
-                    <div class="layui-form-mid" id="resetMemberAccount"></div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">AIRLINE :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="company_name" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-            
-            <div class="layui-form-item">
-                <label class="layui-form-label">重置密码:</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="resetPassword" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0;margin-left: -2px">DESTINATION :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="destination" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
             </div>
 
-            <div class="layui-layer-btn layui-layer-btn-">
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">ROUTE :</label>
+                    <div class="layui-input-inline" style="width: 498px;">
+                        <input type="text" name="air_line" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">BUP MIN :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_min" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">BUP N :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_n" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">BUP +45K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_45k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 13px;">BUP +100K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_100k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 14px;">BUP +500K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_500k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 5px;">BUP +1000K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_1000k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 6px;">BUP +2000K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_2000k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 3px;">FSC（BUP） :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_fule" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 12px;">SC（BUP） :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="board_security" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">BULK MIN :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_min" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" >BULK N :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_n" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 13px;">BULK +45K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_45k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 6px;">BULK +100K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_100k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 5px;">BULK +500K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_500k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">BULK +1000K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_1000k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">BULK +2000K :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_2000k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-6px;">FSC（BULK） :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_fule" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 3px;">SC（BULK） :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="divergence_security" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">EFFECTIVE DATE
+                        :</label>
+                    <div class="layui-input-inline" style="width: 162px;">
+                        <input type="text" name="effective_date" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" >REMARK :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="remark" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">LONG HAUL FUEL :</label>
+                    <div class="layui-input-inline" style="width: 154px;">
+                        <input type="text" name="divergence_2000k" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-12px;">SHORT HAUL FUEL :</label>
+                    <div class="layui-input-inline" style="width: 154px;">
+                        <input type="text" name="divergence_fule" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-layer-btn layui-layer-btn-" style="padding-top: 0;">
                 <a class="layui-layer-btn0">确定</a>
                 <a class="layui-layer-btn1">取消</a>
             </div>
@@ -124,7 +361,7 @@
     </div>
 </div>
 <script type="text/html" id="tableBarButton">
-  <a class="layui-btn layui-btn-xs" lay-event="resetPassword">重置密码</a>
+  <a class="layui-btn layui-btn-xs" lay-event="resetPassword">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
@@ -132,45 +369,82 @@
 <script src="{{ config('view.admin_assets') }}/layui/layui.js"></script>
 <script>
     //JavaScript代码区域
-    layui.use(['element', 'table'], function(){
+    layui.use(['element', 'table', 'upload'], function(){
         var element = layui.element;
         var table = layui.table;
         var $ = layui.$;
         var form = layui.form;
+        var upload = layui.upload;
+
+
+
+        //new
+
+        //指定允许上传的文件类型
+        upload.render({
+            elem: '#import_excel'
+            ,url: '{{ route("admin.routeSearch.importExcel") }}'
+            ,data: {
+                _token: '{{csrf_token()}}'
+            }
+            ,accept: 'file' //普通文件
+            ,exts: 'xls|xlsx' //只允许上传压缩文件
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.msg('数据导入中...', {icon: 16, shade: 0.3, time: 0});
+            },done: function(res){
+                layer.closeAll('dialog'); //关闭loading
+                if (res.code == 200) {
+                    layer.msg(res.msg, {icon: 1});
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+                tableReload();
+            }
+        });
+        //new
+
 
         table.render({
             elem: '#demo',
-            url: '{{ route("admin.index.index")  }}',
+            url: '{{ route("admin.routeSearch.index")  }}',
             page: true,
+            // width: 892,
             parseData: function(res){ //res 即为原始返回的数据
                 return {
-                "code": res.errcode, //解析接口状态
-                "msg": res.msg, //解析提示文本
-                "count": res.total, //解析数据长度
-                "data": res.data //解析数据列表
+                    "code": res.errcode, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data //解析数据列表
                 };
             },
             cols: [[
-                {field: 'id', title: 'ID', width:80,  fixed: 'left'},
-                {field: 'account', title: '用户账号'},
-                {field: 'created_at', title: '创建时间'},
-                {field: '', title: '状态',templet:function (d) {
-                        if (d.status == 1) {
-                            return '启用';
-                        } else {
-                            return '禁用';
-                        }
-                    }
-                },
-                {field:'status', title:'状态', unresize: true, templet: function(d){
-                
-                    if(d.status == 1){
-                        return '<input type="checkbox" name="status" value="'+d.id+'" lay-skin="switch" lay-text="启用|禁用" lay-filter="tableStatus" checked >';
-                    }else{
-                        return '<input type="checkbox" name="status" value="'+d.id+'" lay-skin="switch" lay-text="启用|禁用" lay-filter="tableStatus" >';
-                    }
-                }},
-                {fixed: 'right',title: '操作', align:'center', toolbar: '#tableBarButton'} 
+                {field: 'company_name', title: 'AIRLINE', width:181, fixed: 'left'},
+                {field: 'destination', title: 'DESTINATION', width:181, fixed: 'left'},
+                {field: 'air_line', title: 'ROUTE', width:181, fixed: 'left'},
+                {field: 'board_min', title: 'BUP MIN', width:181},
+                {field: 'board_n', title: 'BUP N', width:181},
+                {field: 'board_45k', title: 'BUP +45K', width:181},
+                {field: 'board_100k', title: 'BUP +100K', width:181},
+                {field: 'board_500k', title: 'BUP +500K', width:181},
+                {field: 'board_1000k', title: 'BUP +1000K', width:181},
+                {field: 'board_2000k', title: 'BUP +2000K', width:181},
+                {field: 'board_fule', title: 'FSC（BUP）', width:181},
+                {field: 'board_security', title: 'SC（BUP）', width:181},
+                {field: 'divergence_min', title: 'BULK MIN', width:181},
+                {field: 'divergence_n', title: 'BULK N', width:181},
+                {field: 'divergence_45k', title: 'BULK +45K', width:181},
+                {field: 'divergence_100k', title: 'BULK +100K', width:181},
+                {field: 'divergence_500k', title: 'BULK +500K', width:181},
+                {field: 'divergence_1000k', title: 'BULK +1000K', width:181},
+                {field: 'divergence_2000k', title: 'BULK +2000K', width:181},
+                {field: 'divergence_fule', title: 'FSC（BULK）', width:181},
+                {field: 'divergence_security', title: 'SC（BULK）', width:181},
+                {field: 'effective_date', title: 'EFFECTIVE DATE', width:181},
+                {field: 'remark', title: 'REMARK', width:181},
+                {field: 'long_fuel', title: 'LONG HAUL FUEL', width:181},
+                {field: 'short_fuel', title: 'SHORT HAUL FUEL', width:181},
+                {field: 'created_at', title: 'Created Date', width:181},
+                {fixed: 'right',title: 'Operation', width:141, align:'center', toolbar: '#tableBarButton'}
             ]],
         });
 
@@ -184,8 +458,8 @@
                 $('#resetMemberAccount').text(data.account);
                 layer.open({
                     type: 1,
-                    title: '重置密码',
-                    area: ['430px','250px'], //宽高
+                    // title: '重置密码',
+                    area: ['680px'], //宽高
                     content: $('#resetPasswordBox'),
                     end: function () {
                         //    - 层销毁后触发的回调
@@ -228,17 +502,17 @@
                     
             }else if(obj.event == 'delete'){
 
-                layer.confirm('是否确认删除该账号？', {
+                layer.confirm('是否确认删除该记录？', {
                     btn: ['确认','取消'] //按钮
                 }, function(){
                     $.ajax({
-                        url: '{{ route("admin.index.deleteMember") }}',
+                        url: '{{ route("admin.routeSearch.deleteSearch") }}',
                         type: 'POST',
                         dataType: 'json',
-                        data: {_token: '{{csrf_token()}}','member_id':data.id},
+                        data: {_token: '{{csrf_token()}}','s_id':data.id},
                     })
                     .done(function(res) {
-                        if (res.errcode == 0) {
+                        if (res.code == 200) {
                             layer.msg(res.msg, {icon: 1});
                         } else {
                             layer.msg(res.msg, {icon: 2});
@@ -255,77 +529,6 @@
 
         })
 
-        //监听状态操作
-        form.on('switch(tableStatus)', function(obj){
-
-            $.ajax({
-                url: '{{ route("admin.index.changeMemberStatus") }}',
-                type: 'POST',
-                dataType: 'json',
-                data: {_token: '{{csrf_token()}}','member_id':this.value},
-            })
-            .done(function(res) {
-                if (res.errcode == 0) {
-                    layer.msg(res.msg, {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-            })
-            .fail(function() {
-                layer.msg('网络繁忙', {icon: 2});
-            });
-        });
-        
-        $('.addMember').on('click', function() {
-
-
-
-            
-            layer.open({
-                type: 1,
-                title: '添加会员',
-                area: ['430px','250px'], //宽高
-                content: $('#openMemberBox'),
-                end: function () {
-                    //    - 层销毁后触发的回调
-                    // $('#userlist_keyword').val('');
-                    $('input[name=account],input[name=password]').val('');
-                    
-                },
-                yes: function(index) {
-                   
-                   var account = $('input[name=account]').val();
-                   var password = $('input[name=password]').val();
-                   var acc = layer.msg('会员数据生成中...', {icon: 16, shade: 0.3, time: 0});
-                   if(!account && !password){
-                        layer.msg('请填写账号和密码', {icon: 2});
-                        return false;
-                   }
-                    $.ajax({
-                            url: '{{ route("admin.index.addMember") }}',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: {_token: '{{csrf_token()}}','account':account,'password':password},
-                        })
-                        .done(function(res) {
-                            layer.close(acc);
-                            if (res.errcode == 0) {
-                                layer.msg(res.msg, {icon: 1});
-                                layer.close(index);
-                                tableReload();
-                            } else {
-                                layer.msg(res.msg, {icon: 2});
-                                return false;
-                            }
-                        })
-                        .fail(function() {
-                            layer.close(acc);
-                            layer.msg('网络繁忙', {icon: 2});
-                        });
-                }
-            });
-
-        });
 
         $('.reloadBtn').on('click', function () {
             tableReload();

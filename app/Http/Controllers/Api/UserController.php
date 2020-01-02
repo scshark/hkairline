@@ -32,6 +32,11 @@ class UserController extends Controller
             throw new Exception("Invalid Account or Password");
 
         }
+        $user = auth('api')->user()->toArray();
+
+        if(!$user['status']){
+            throw new Exception("Account is blocked");
+        }
         return response()->json([
             'code' => 200,
             'msg' => 'success',
@@ -104,7 +109,7 @@ class UserController extends Controller
             'keyword'=>$keyword
         ]);
 
-        $result = AlRouteSearch::where("destination",$keyword)->orderBy('id','desc')->paginate($limit)->toArray();
+        $result = AlRouteSearch::where("destination",'like','%'.$keyword.'%')->orderBy('id','desc')->paginate($limit)->toArray();
 
 
         $res_data = [

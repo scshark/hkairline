@@ -28,7 +28,7 @@
 <body>
 <h1>Admin Login Form</h1>
 <div class="w3ls-login box">
-    <img src="{{ config('view.admin_assets') }}/images/logo.png" alt="logo_img" />
+{{--    <img src="{{ config('view.admin_assets') }}/images/logo.png" alt="logo_img" />--}}
     <!-- form starts here -->
     <form action="#" method="post" class="layui-form">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
