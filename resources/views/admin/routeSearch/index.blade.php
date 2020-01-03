@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>管理后台</title>
+    <link rel="stylesheet" href="{{ config('view.admin_assets') }}/css/jquery.toast.css">
     <link rel="stylesheet" href="{{ config('view.admin_assets') }}/layui/css/layui.css">
     <style>
     .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
@@ -14,6 +15,10 @@
     }
     .layui-form-item{
         margin-bottom: 10px;
+    }
+    .jq-toast-wrap.top-right{
+        right: 70px;
+        top: 65px;
     }
     </style>
 </head>
@@ -57,12 +62,16 @@
 
             <div class="clearfix">
 
-                <div class="test-table-reload-btn "  style=" margin-right:10px;margin-bottom: 10px;float:left">
-                    <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/Data Template.xlsx">下载数据模板</a>
-                </div>
+
 
                 <div class="test-table-reload-btn" id="import_excel" style="margin-bottom: 10px;float:left">
                     <button class="layui-btn">导入航线</button>
+                </div>
+                <div class="test-table-reload-btn" id="add_search" style=" margin-left:10px;margin-bottom: 10px;float:left">
+                    <button class="layui-btn">添加航线</button>
+                </div>
+                <div class="test-table-reload-btn "  style=" margin-left:10px;margin-bottom: 10px;float:left">
+                    <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/Data Template.xlsx">下载数据模板</a>
                 </div>
                 <div class="test-table-reload-btn" style="margin-bottom: 10px;float:right">
                     目的地：
@@ -104,7 +113,7 @@
 
     <div id="editBox" style="display: none; padding: 10px;padding-left: 30px;">
         <div class="layui-form" >
-            <form id="editSearch"  enctype="multipart/form-data" style="max-height: 520px !important;">
+            <form id="editSearch"  enctype="multipart/form-data" style="max-height: 505px !important;">
 
             <input type="hidden" name="s_id" >
             <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -323,18 +332,12 @@
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">EFFECTIVE DATE
                         :</label>
-                    <div class="layui-input-inline" style="width: 154px;">
+                    <div class="layui-input-inline" style="width: 469px;">
                         <input type="text" name="effective_date" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
 
-                <div class="layui-inline">
-                    <label class="layui-form-label" >REMARK :</label>
-                    <div class="layui-input-inline" style="width: 180px;">
-                        <input type="text" name="remark" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
             </div>
 
 
@@ -350,17 +353,30 @@
 
 
                 <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-12px;">SHORT HAUL FUEL :</label>
+                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-7px;">SHORT HAUL FUEL :</label>
                     <div class="layui-input-inline" style="width: 150px;">
                         <input type="text" name="divergence_fule" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
 
-            <div class="layui-layer-btn layui-layer-btn-" style="padding-top: 0;">
-                <a class="layui-layer-btn0">确定</a>
-                <a class="layui-layer-btn1">取消</a>
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" >REMARK :</label>
+                    <div class="layui-input-inline" style="width: 498px;">
+                        {{--<input type="text" name="remark" autocomplete="off" class="layui-input">--}}
+                        <textarea name="remark"  class="layui-textarea" style="width:100%;height:250px"></textarea>
+
+                    </div>
+                </div>
             </div>
+
+
+            {{--<div class="layui-layer-btn layui-layer-btn-" style="padding-top: 0;">--}}
+                {{--<a class="layui-layer-btn0">确定</a>--}}
+                {{--<a class="layui-layer-btn1">取消</a>--}}
+            {{--</div>--}}
             </form>
         </div>
 
@@ -375,9 +391,31 @@
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
- 
+<script src="{{ config('view.admin_assets') }}/js/jquery.min.js"></script>
 <script src="{{ config('view.admin_assets') }}/layui/layui.js"></script>
+<script src="{{ config('view.admin_assets') }}/js/jquery.toast.js"></script>
 <script>
+
+    function showMsg(text, icon, hideAfter) {
+        if (heading == undefined) {
+            var heading = "提示";
+        }
+        $.toast({
+            text: text,//消息提示框的内容。
+            heading: heading,//消息提示框的标题。
+            icon: icon,//消息提示框的图标样式。
+            showHideTransition: 'fade',//消息提示框的动画效果。可取值：plain，fade，slide。
+            allowToastClose: true,//是否显示关闭按钮。(true 显示，false 不显示)
+            hideAfter: hideAfter,//设置为false则消息提示框不自动关闭.设置为一个数值则在指定的毫秒之后自动关闭消息提框
+            stack: 999,//消息栈。同时允许的提示框数量
+            position: 'top-right',//消息提示框的位置：bottom-left, bottom-right,bottom-center,top-left,top-right,top-center,mid-center。
+            textAlign: 'left',//文本对齐：left, right, center。
+            loader: true,//是否显示加载条
+            //bgColor: '#FF1356',//背景颜色。
+            //textColor: '#eee',//文字颜色。
+            loaderBg: '#ffffff',//加载条的背景颜色。
+        });
+    }
     //JavaScript代码区域
     layui.use(['element', 'table', 'upload'], function(){
         var element = layui.element;
@@ -385,6 +423,7 @@
         var $ = layui.$;
         var form = layui.form;
         var upload = layui.upload;
+
 
 
 
@@ -404,7 +443,17 @@
             },done: function(res){
                 layer.closeAll('dialog'); //关闭loading
                 if (res.code == 200) {
-                    layer.msg(res.msg, {icon: 1});
+
+
+                    layer.alert('导入Excel数据共 '+res.total_num+' 条<br/>成功 '+res.success_num+' 条<br/>失败 '+res.error_num+' 条 <br/>(失败详情查看右侧提示)'); //这时如果你也还想执行yes回调，可以放在第三个参数中。
+                    if(res.error_index.length > 0){
+                        $.each(res.error_index,function (k,v) {
+                            //50000 + k*5000
+                            showMsg('第 '+v.index+' 行导入失败，请检查Excel数据后重试','error',false);
+                        })
+                    }
+
+
                 } else {
                     layer.msg(res.msg, {icon: 2});
                 }
@@ -413,6 +462,58 @@
         });
         //new
 
+
+        $('#add_search').click(function () {
+            $('#editBox input[type=text],#editBox textarea').val('');
+
+            var flag = false;
+            layer.open({
+                type: 1,
+                title: 'Adding route',
+                area: ['710px'], //宽高
+                content: $('#editBox'),
+                btn: ['确认', '取消']
+                ,btn1: function(index) {
+
+                    var formData = new FormData(document.getElementById("editSearch"));
+                    $.ajax({
+                        url: '{{ route("admin.routeSearch.addSearch") }}',
+                        type: 'POST',
+                        dataType: 'json',
+                        cache: false,        // 不缓存数据
+                        processData: false,  // 不处理数据
+                        contentType: false,  // 不设置内容类型
+                        data: formData,
+                    })
+                        .done(function(res) {
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {icon: 1});
+
+                            }  else if(res.code == 10002) {
+                                layer.msg(res.msg, {icon: 2});
+                                return false;
+                            }else{
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                            layer.close(index);
+                            tableReload();
+                        })
+                        .fail(function() {
+                            layer.close(index);
+                            layer.msg('网络繁忙', {icon: 2});
+                        });
+                },
+                end: function (index) {
+                    //    - 层销毁后触发的回调
+                    // $('#userlist_keyword').val('');
+                    layer.close(index);
+
+                },
+                cancel:function(index){
+                    layer.close(index);
+                }
+            });
+        });
 
         table.render({
             elem: '#demo',
@@ -500,20 +601,17 @@
                         $('input[name=divergence_security]').val(res_data.divergence_security);
                         $('input[name=effective_date]').val(res_data.effective_date);
                         $('input[name=long_fuel]').val(res_data.long_fuel);
-                        $('input[name=remark]').val(res_data.remark);
+                        $('textarea[name=remark]').val(res_data.remark);
                         $('input[name=short_fuel]').val(res_data.short_fuel);
                         $('input[name=s_id]').val(res_data.id);
 
                         layer.open({
                             type: 1,
-                            // title: '重置密码',
+                            title: 'edit',
                             area: ['710px'], //宽高
                             content: $('#editBox'),
-                            end: function () {
-                                //    - 层销毁后触发的回调
-                                // $('#userlist_keyword').val('');
-                            },
-                            yes: function(index) {
+                            btn: ['确认', '取消']
+                            ,btn1: function(index) {
 
                                 var formData = new FormData(document.getElementById("editSearch"));
 
@@ -529,16 +627,29 @@
                                     .done(function(res) {
                                         if (res.code == 200) {
                                             layer.msg(res.msg, {icon: 1});
-                                        } else {
+
+                                        } else if(res.code == 10002) {
+                                            layer.msg(res.msg, {icon: 2});
+                                            return false;
+                                        }else{
                                             layer.msg(res.msg, {icon: 2});
                                         }
                                         layer.close(index);
                                         tableReload();
                                     })
                                     .fail(function() {
-                                        layer.close(acc);
+                                        layer.close(index);
                                         layer.msg('网络繁忙', {icon: 2});
                                     });
+                            }
+                            ,end: function (index) {
+                                //    - 层销毁后触发的回调
+                                // $('#userlist_keyword').val('');
+                                layer.close(index);
+
+                            },
+                            cancel:function(index){
+                                layer.close(index);
                             }
                         });
 
