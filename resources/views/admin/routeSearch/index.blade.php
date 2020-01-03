@@ -17,7 +17,7 @@
         margin-bottom: 10px;
     }
     .jq-toast-wrap.top-right{
-        right: 70px;
+        right: 75px;
         top: 65px;
     }
     </style>
