@@ -20,13 +20,13 @@
         <div class="layui-logo">后台管理平台</div>
 
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    {{ Session::get('login_name')  }}
-                </a>
-            </li>
-            <li class="layui-nav-item"><a href="{{ route('admin.login.loginout')  }}">退了</a></li>
+            {{--<li class="layui-nav-item">--}}
+                {{--<a href="javascript:;">--}}
+                    {{--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">--}}
+                    {{--{{ Session::get('login_name')  }}--}}
+                {{--</a>--}}
+            {{--</li>--}}
+            <li class="layui-nav-item"><a href="{{ route('admin.login.loginout')  }}">退出</a></li>
         </ul>
     </div>
 

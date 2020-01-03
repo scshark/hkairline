@@ -23,13 +23,13 @@
         <div class="layui-logo">后台管理平台</div>
 
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    {{ Session::get('login_name')  }}
-                </a>
-            </li>
-            <li class="layui-nav-item"><a href="{{ route('admin.login.loginout')  }}">退了</a></li>
+            {{--<li class="layui-nav-item">--}}
+                {{--<a href="javascript:;">--}}
+                    {{--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">--}}
+                    {{--{{ Session::get('login_name')  }}--}}
+                {{--</a>--}}
+            {{--</li>--}}
+            <li class="layui-nav-item"><a href="{{ route('admin.login.loginout')  }}">退出</a></li>
         </ul>
     </div>
 
@@ -56,7 +56,11 @@
         
 
             <div class="clearfix">
-            
+
+                <div class="test-table-reload-btn "  style=" margin-right:10px;margin-bottom: 10px;float:left">
+                    <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/layui/layui.js">下载数据模板</a>
+                </div>
+
                 <div class="test-table-reload-btn" id="import_excel" style="margin-bottom: 10px;float:left">
                     <button class="layui-btn">导入航线</button>
                 </div>
@@ -100,7 +104,7 @@
 
     <div id="editBox" style="display: none; padding: 10px;padding-left: 30px;">
         <div class="layui-form" >
-            <form id="editSearch"  enctype="multipart/form-data">
+            <form id="editSearch"  enctype="multipart/form-data" style="max-height: 520px !important;">
 
             <input type="hidden" name="s_id" >
             <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -503,7 +507,7 @@
                         layer.open({
                             type: 1,
                             // title: '重置密码',
-                            area: ['680px'], //宽高
+                            area: ['710px'], //宽高
                             content: $('#editBox'),
                             end: function () {
                                 //    - 层销毁后触发的回调
