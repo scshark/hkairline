@@ -58,7 +58,7 @@
             <div class="clearfix">
 
                 <div class="test-table-reload-btn "  style=" margin-right:10px;margin-bottom: 10px;float:left">
-                    <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/layui/layui.js">下载数据模板</a>
+                    <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/Data Template.xlsx">下载数据模板</a>
                 </div>
 
                 <div class="test-table-reload-btn" id="import_excel" style="margin-bottom: 10px;float:left">
