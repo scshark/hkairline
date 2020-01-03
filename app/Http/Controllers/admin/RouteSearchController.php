@@ -164,4 +164,71 @@ class RouteSearchController extends Controller
     }
 
 
+    public function searchInfo(Request $request){
+
+        $sid = $request->input('s_id');
+
+        if (empty($sid)) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '参数错误',
+            ]);
+        }
+
+        $search = AlRouteSearch::where('id', $sid)->first();
+
+        if (!$search) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '未找到此记录',
+            ]);
+        }
+
+
+        return response()->json([
+            'code' => 200,
+            'msg' => '查询成功',
+            'data'=>$search
+        ]);
+
+    }
+
+    public function editSearch(Request $request){
+
+        $request_data =$request->input();
+        $sid = $request_data['s_id'];
+
+//        unset($request_data['s_id']);
+        if (empty($sid)) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '参数错误',
+            ]);
+        }
+
+        $search = AlRouteSearch::where('id', $sid)->first();
+
+        if (!$search) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '未找到此记录',
+            ]);
+        }
+
+        if($search->update($request_data)){
+            return response()->json([
+                'code' => 200,
+                'msg' => '修改成功',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 10001,
+                'msg' => '修改失败'
+            ]);
+        }
+
+
+
+    }
+
 }

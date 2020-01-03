@@ -98,10 +98,14 @@
     </div>
 
 
-    <div id="resetPasswordBox" style="display: none; padding: 10px;padding-left: 30px;">
+    <div id="editBox" style="display: none; padding: 10px;padding-left: 30px;">
         <div class="layui-form" >
-            <input type="hidden" name="member_id" >
+            <form id="editSearch"  enctype="multipart/form-data">
+
+            <input type="hidden" name="s_id" >
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
             <div class="layui-form-item">
+
 
 
                 <div class="layui-inline">
@@ -315,7 +319,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">EFFECTIVE DATE
                         :</label>
-                    <div class="layui-input-inline" style="width: 162px;">
+                    <div class="layui-input-inline" style="width: 154px;">
                         <input type="text" name="effective_date" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -323,7 +327,7 @@
 
                 <div class="layui-inline">
                     <label class="layui-form-label" >REMARK :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
+                    <div class="layui-input-inline" style="width: 180px;">
                         <input type="text" name="remark" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -335,7 +339,7 @@
 
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">LONG HAUL FUEL :</label>
-                    <div class="layui-input-inline" style="width: 154px;">
+                    <div class="layui-input-inline" style="width: 150px;">
                         <input type="text" name="divergence_2000k" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -343,7 +347,7 @@
 
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-12px;">SHORT HAUL FUEL :</label>
-                    <div class="layui-input-inline" style="width: 154px;">
+                    <div class="layui-input-inline" style="width: 150px;">
                         <input type="text" name="divergence_fule" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -353,7 +357,9 @@
                 <a class="layui-layer-btn0">确定</a>
                 <a class="layui-layer-btn1">取消</a>
             </div>
+            </form>
         </div>
+
     </div>
 
     <div class="layui-footer">
@@ -361,7 +367,7 @@
     </div>
 </div>
 <script type="text/html" id="tableBarButton">
-  <a class="layui-btn layui-btn-xs" lay-event="resetPassword">编辑</a>
+  <a class="layui-btn layui-btn-xs" lay-event="editSearch">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
@@ -452,53 +458,100 @@
         table.on('tool(memberList)', function(obj){
 
             var data = obj.data;
-            if(obj.event == 'resetPassword'){
+            if(obj.event == 'editSearch'){
 
-                $('input[name=member_id]').val(data.id);
-                $('#resetMemberAccount').text(data.account);
-                layer.open({
-                    type: 1,
-                    // title: '重置密码',
-                    area: ['680px'], //宽高
-                    content: $('#resetPasswordBox'),
-                    end: function () {
-                        //    - 层销毁后触发的回调
-                        // $('#userlist_keyword').val('');
-                        $('input[name=member_id],input[name=resetPassword]').val('');
-                    },
-                    yes: function(index) {
-                    
-                        var member_id = $('input[name=member_id]').val();
-                        var password = $('input[name=resetPassword]').val();
-                        if(!member_id){
-                                layer.msg('出现错误，请刷新页面', {icon: 2});
-                                return false;
-                        }
-                        if(!password){
-                                layer.msg('请填写密码', {icon: 2});
-                                return false;
-                        }
-                        $.ajax({
-                                url: '{{ route("admin.index.resetMemberPassword") }}',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {_token: '{{csrf_token()}}','member_id':member_id,'password':password},
-                            })
-                            .done(function(res) {
-                                if (res.errcode == 0) {
-                                    layer.msg(res.msg, {icon: 1});
-                                } else {
-                                    layer.msg(res.msg, {icon: 2});
-                                }
-                                layer.close(index);
-                                tableReload();
-                            })
-                            .fail(function() {
-                                layer.close(acc);
-                                layer.msg('网络繁忙', {icon: 2});
-                            });
+
+                $.ajax({
+                    url: '{{ route("admin.routeSearch.searchInfo") }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {_token: '{{csrf_token()}}','s_id':data.id},
+                })
+                .done(function(res) {
+
+                    if (res.code == 200) {
+
+                        var res_data = res.data;
+
+                        $('input[name=company_name]').val(res_data.company_name);
+                        $('input[name=air_line]').val(res_data.air_line);
+                        $('input[name=board_45k]').val(res_data.board_45k);
+                        $('input[name=board_100k]').val(res_data.board_100k);
+                        $('input[name=board_500k]').val(res_data.board_500k);
+                        $('input[name=board_1000k]').val(res_data.board_1000k);
+                        $('input[name=board_2000k]').val(res_data.board_2000k);
+                        $('input[name=board_fule]').val(res_data.board_fule);
+                        $('input[name=board_min]').val(res_data.board_min);
+                        $('input[name=board_n]').val(res_data.board_n);
+                        $('input[name=board_security]').val(res_data.board_security);
+                        $('input[name=destination]').val(res_data.destination);
+                        $('input[name=divergence_45k]').val(res_data.divergence_45k);
+                        $('input[name=divergence_100k]').val(res_data.divergence_100k);
+                        $('input[name=divergence_500k]').val(res_data.divergence_500k);
+                        $('input[name=divergence_1000k]').val(res_data.divergence_1000k);
+                        $('input[name=divergence_2000k]').val(res_data.divergence_2000k);
+                        $('input[name=divergence_fule]').val(res_data.divergence_fule);
+                        $('input[name=divergence_min]').val(res_data.divergence_min);
+                        $('input[name=divergence_n]').val(res_data.divergence_n);
+                        $('input[name=divergence_security]').val(res_data.divergence_security);
+                        $('input[name=effective_date]').val(res_data.effective_date);
+                        $('input[name=long_fuel]').val(res_data.long_fuel);
+                        $('input[name=remark]').val(res_data.remark);
+                        $('input[name=short_fuel]').val(res_data.short_fuel);
+                        $('input[name=s_id]').val(res_data.id);
+
+                        layer.open({
+                            type: 1,
+                            // title: '重置密码',
+                            area: ['680px'], //宽高
+                            content: $('#editBox'),
+                            end: function () {
+                                //    - 层销毁后触发的回调
+                                // $('#userlist_keyword').val('');
+                            },
+                            yes: function(index) {
+
+                                var formData = new FormData(document.getElementById("editSearch"));
+
+                                $.ajax({
+                                    url: '{{ route("admin.routeSearch.editSearch") }}',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    cache: false,        // 不缓存数据
+                                    processData: false,  // 不处理数据
+                                    contentType: false,  // 不设置内容类型
+                                    data: formData,
+                                    })
+                                    .done(function(res) {
+                                        if (res.code == 200) {
+                                            layer.msg(res.msg, {icon: 1});
+                                        } else {
+                                            layer.msg(res.msg, {icon: 2});
+                                        }
+                                        layer.close(index);
+                                        tableReload();
+                                    })
+                                    .fail(function() {
+                                        layer.close(acc);
+                                        layer.msg('网络繁忙', {icon: 2});
+                                    });
+                            }
+                        });
+
+                    } else {
+                        layer.msg(res.errmsg, {icon: 2});
+
                     }
+                })
+                .fail(function() {
+                    layer.msg('网络繁忙', {icon: 2});
+                })
+                .always(function() {
+                    console.log("complete");
                 });
+
+
+
                     
             }else if(obj.event == 'delete'){
 

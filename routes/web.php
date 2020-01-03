@@ -32,4 +32,9 @@ Route::group(['middleware'=>'check.login'], function () {
     Route::any('/admin/routeSearch/importExcel', 'admin\RouteSearchController@importExcel')->name('admin.routeSearch.importExcel');
 
     Route::any('/admin/routeSearch/deleteSearch', 'admin\RouteSearchController@deleteSearch')->name('admin.routeSearch.deleteSearch');
+
+    Route::any('/admin/routeSearch/searchInfo', 'admin\RouteSearchController@searchInfo')->name('admin.routeSearch.searchInfo');
+
+    Route::any('/admin/routeSearch/editSearch', 'admin\RouteSearchController@editSearch')->name('admin.routeSearch.editSearch');
+
 });

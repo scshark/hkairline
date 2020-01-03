@@ -28,7 +28,7 @@ class AlRouteSearch  extends model
     protected $dates = ['deleted_at'];
 
     //不会被更新到数据表中的字段
-    protected $guarded = [];
+    protected $guarded = ['s_id'];
 
 
 }
