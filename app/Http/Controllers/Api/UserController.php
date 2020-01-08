@@ -128,9 +128,9 @@ class UserController extends Controller
                     $table_title_up = strtoupper($table['title']);
                     $item['tableTitle'][] = substr($table['title'],strpos($table['title'],' '));
                     if(strstr($table_title_up,'BUP')){
-                        $item['tableTitle']['bup'][] = $table['val'];
+                        $item['table']['bup'][] = $table['val'];
                     }elseif(strstr($table_title_up,'BULK')){
-                        $item['tableTitle']['bulk'][] = $table['val'];
+                        $item['table']['bulk'][] = $table['val'];
                     }
                 }
                 $list_data[] = $item;
