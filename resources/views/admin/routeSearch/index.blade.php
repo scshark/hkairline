@@ -77,7 +77,7 @@
     .delete_airline{
         display: block;
         padding: 0;
-        margin: 0 5px !important;
+        margin: -5px 5px 0 !important;
     }
     </style>
 </head>
