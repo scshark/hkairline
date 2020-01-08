@@ -122,7 +122,7 @@ class UserController extends Controller
                     continue;
                 }
 
-                $table_data = json_decode($item['table_data']);
+                $table_data = json_decode($item['table_data'],true);
                 foreach ($table_data as $table){
 
                     $table_title_up = strtoupper($table['title']);
