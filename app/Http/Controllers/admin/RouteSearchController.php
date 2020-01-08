@@ -385,4 +385,43 @@ class RouteSearchController extends Controller
         }
     }
 
+    public function deleteAirLine(Request $request){
+
+
+        $sid = $request->input('s_id');
+
+        if (empty($sid)) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '参数错误',
+            ]);
+        }
+        $search = AlRouteSearch::where('id', $sid)->first();
+
+        if (!$search) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '未找到此记录',
+            ]);
+        }
+
+
+        $res = AlRouteSearch::where('air_line',$search['air_line'])->delete();
+
+
+        if($res){
+            return response()->json([
+                'code' => 200,
+                'msg' => '删除成功',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 200,
+                'msg' => '删除失败',
+            ]);
+        }
+
+
+    }
+
 }

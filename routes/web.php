@@ -37,5 +37,6 @@ Route::group(['middleware'=>'check.login'], function () {
 
     Route::any('/admin/routeSearch/editSearch', 'admin\RouteSearchController@editSearch')->name('admin.routeSearch.editSearch');
     Route::any('/admin/routeSearch/addSearch', 'admin\RouteSearchController@addSearch')->name('admin.routeSearch.addSearch');
+    Route::any('/admin/routeSearch/deleteAirLine', 'admin\RouteSearchController@deleteAirLine')->name('admin.routeSearch.deleteAirLine');
 
 });

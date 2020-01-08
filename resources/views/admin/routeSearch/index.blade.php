@@ -70,7 +70,15 @@
         width: 157px;
     }
 
-        .layui-form-item {}
+    .layui-table-body .layui-table-col-special .layui-table-cell{
+
+        line-height: 50px;
+    }
+    .delete_airline{
+        display: block;
+        padding: 0;
+        margin: 0 5px !important;
+    }
     </style>
 </head>
 <body class="layui-layout-body">
@@ -293,7 +301,8 @@
 </div>
 <script type="text/html" id="tableBarButton">
   <a class="layui-btn layui-btn-xs" lay-event="editSearch">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete">删除</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs delete_airline" lay-event="delete_airline">删除航线</a>
 </script>
 
 <script src="{{ config('view.admin_assets') }}/js/jquery.min.js"></script>
@@ -665,6 +674,28 @@
                 });   
                 
               
+            }else if(obj.event == 'delete_airline'){
+                layer.confirm('是否确认删除该航线下所有记录？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.ajax({
+                        url: '{{ route("admin.routeSearch.deleteAirLine") }}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {_token: '{{csrf_token()}}','s_id':data.id},
+                    })
+                        .done(function(res) {
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {icon: 1});
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                            tableReload();
+                        })
+                        .fail(function() {
+                            layer.msg('网络繁忙', {icon: 2});
+                        });
+                });
             }
 
         })
