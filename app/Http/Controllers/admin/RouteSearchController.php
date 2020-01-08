@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\AlRouteSearch;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ class RouteSearchController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+
              $limit = $request->input('limit',10);
              $keyWord = $request->input('keyWord','');
 
@@ -21,6 +23,7 @@ class RouteSearchController extends Controller
              $list = AlRouteSearch::when($keyWord,function ($query) use ($keyWord){
 
                     $query->where('destination','like','%'.$keyWord.'%');
+                    $query->orWhere('company_name','like','%'.$keyWord.'%');
                 })
                  ->orderBy('id','desc')
                  ->paginate($limit)->toArray();
@@ -52,52 +55,36 @@ class RouteSearchController extends Controller
                 //获取excel 数据
                 Excel::load($file->getPathname(), function ($reader) use (&$data_arr,&$total_num,&$success_num,&$error_index) {
 
-
-                    $reader->each(function ($sheet) use (&$data_arr,&$total_num,&$success_num,&$error_index) {//这里的$sheet变量就是sheet对象了,excel里的每一个sheet
+                    //这里的$sheet变量就是sheet对象了,excel里的每一个sheet
+                    $reader->each(function ($sheet) use (&$data_arr,&$total_num,&$success_num,&$error_index) {
                         $total_num++;
-                        $data = $this->dataFormater(array_values($sheet->toArray()));
 
-                        if(empty($data[0]) || empty($data[1]) || empty($data[2])){
+                        $excel_data = $sheet->toArray();
+                        if(empty($excel_data['AIRLINE']) || empty($excel_data['DESTINATION']) || empty($excel_data['ROUTE'])){
                             $error_index[] = ['index'=>$total_num,'type'=>1];
                             return true;
                         }
 
+                        $excel_data = $this->dataFormater($excel_data);
+
                         $dateTime = date('Y-m-d H:i:s');
                         $sql_data =  [
-                            'company_name' => $data[0],
-                            'destination' => $data[1],
-                            'air_line' => $data[2],
-                            'board_min' => $data[3],
-                            'board_n' => $data[4],
-                            'board_45k' => $data[5],
-                            'board_100k' => $data[6],
-                            'board_500k' => $data[7],
-                            'board_1000k' => $data[8],
-                            'board_2000k' => $data[9],
-                            'board_fule' => $data[10],
-                            'board_security' => $data[11],
-                            'divergence_min' => $data[12],
-                            'divergence_n' => $data[13],
-                            'divergence_45k' => $data[14],
-                            'divergence_100k' => $data[15],
-                            'divergence_500k' => $data[16],
-                            'divergence_1000k' => $data[17],
-                            'divergence_2000k' => $data[18],
-                            'divergence_fule' => $data[19],
-                            'divergence_security' => $data[20],
-                            'effective_date' => $data[21]->toDateString(),
-                            'remark' => $data[22],
-                            'long_fuel' => $data[23],
-                            'short_fuel' => $data[24],
+                            'company_name' => $excel_data['AIRLINE'],
+                            'destination' => $excel_data['DESTINATION'],
+                            'air_line' => $excel_data['ROUTE'],
+                            'effective_date' => $excel_data['EFFECTIVE DATE']->toDateString(),
+                            'remark' => $excel_data['REMARK'],
+                            'long_fuel' => $excel_data['LONG HAUL FUEL'],
+                            'short_fuel' => $excel_data['SHORT HAUL FUEL'],
+                            'table_data'=>$this->getExcelTableData($excel_data),
                             'created_at' => $dateTime,
                             'updated_at' => $dateTime
                         ];
 
-                        $search = AlRouteSearch::where('company_name',$data[0])
-                                            ->where('destination',$data[1])
-                                            ->where('air_line',$data[2])
+                        $search = AlRouteSearch::where('company_name',$sql_data['company_name'])
+                                            ->where('destination',$sql_data['destination'])
+                                            ->where('air_line',$sql_data['air_line'])
                                             ->first();
-
 
 
                         if($search){
@@ -161,15 +148,34 @@ class RouteSearchController extends Controller
         if(empty($data)){
             return false;
         }
-        foreach ($data as &$item) {
+        foreach ($data as $key=>&$item) {
             if(is_float($item)){
                 $item = sprintf("%1\$.2f", $item);
+            }
+            if(is_null($item) && $key != 'REMARK' && $key != 'EFFECTIVE DATE'){
+                $item = '0.00';
             }
         }
         unset($item);
 
         return $data;
 
+    }
+    public function getExcelTableData($data){
+
+        if(empty($data)){
+            return '';
+        }
+        $table_data = [];
+        foreach ($data as $key=>$item) {
+
+            if(strstr($key,'BUP') || strstr($key,'BULK')){
+                $table_data[] = ['title'=>$key,'val'=>$item];
+            }
+
+        }
+
+        return json_encode($table_data);
     }
 
     public function deleteSearch(Request $request){
@@ -264,10 +270,12 @@ class RouteSearchController extends Controller
 
         //检测是否有相同航线存在
 
-        $other_search = AlRouteSearch::where('company_name',$request_data['company_name'])
+        $other_search = AlRouteSearch::where('id','<>',$sid)
+                                    ->where('company_name',$request_data['company_name'])
                                     ->where('destination',$request_data['destination'])
                                     ->where('air_line',$request_data['air_line'])
                                     ->exists();
+
         if($other_search){
             return response()->json([
                 'code' => 10002,
@@ -275,7 +283,30 @@ class RouteSearchController extends Controller
             ]);
         }
 
-        if($search->update($request_data)){
+        $table_data = [];
+        if(!empty($request_data['td_title'])){
+
+            $td_body = $request_data['td_body'];
+
+            foreach ($request_data['td_title'] as $key => $td_title){
+                if (!$td_title) {
+                    continue;
+                }
+                $table_data[] = ['title'=>$td_title,'val'=>$td_body[$key] ?? '0.00'];
+            }
+        }
+        $save_data = [
+            'company_name'=>$request_data['company_name'],
+            'destination'=>$request_data['destination'],
+            'air_line'=>$request_data['air_line'],
+            'effective_date'=>$request_data['effective_date'],
+            'long_fuel'=>$request_data['long_fuel'],
+            'short_fuel'=>$request_data['short_fuel'],
+            'remark'=>$request_data['remark'],
+            'table_data'=>json_encode($table_data)
+        ];
+
+        if($search->update($save_data)){
             return response()->json([
                 'code' => 200,
                 'msg' => '修改成功',
@@ -316,7 +347,30 @@ class RouteSearchController extends Controller
             ]);
         }
 
-        $res = AlRouteSearch::create($request_data);
+        $table_data = [];
+        if(!empty($request_data['td_title'])){
+
+            $td_body = $request_data['td_body'];
+
+            foreach ($request_data['td_title'] as $key => $td_title){
+                if (!$td_title) {
+                    continue;
+                }
+                $table_data[] = ['title'=>$td_title,'val'=>$td_body[$key] ?? '0.00'];
+            }
+        }
+        $save_data = [
+            'company_name'=>$request_data['company_name'],
+            'destination'=>$request_data['destination'],
+            'air_line'=>$request_data['air_line'],
+            'effective_date'=>$request_data['effective_date'],
+            'long_fuel'=>$request_data['long_fuel'],
+            'short_fuel'=>$request_data['short_fuel'],
+            'remark'=>$request_data['remark'],
+            'table_data'=>json_encode($table_data)
+        ];
+
+        $res = AlRouteSearch::create($save_data);
 
         if($res){
             return response()->json([

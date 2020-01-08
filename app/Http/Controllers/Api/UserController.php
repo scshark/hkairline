@@ -112,11 +112,35 @@ class UserController extends Controller
         $result = AlRouteSearch::where("destination",'like','%'.$keyword.'%')->orderBy('id','desc')->paginate($limit)->toArray();
 
 
+        $list_data = [];
+        if(!empty($result['data'])){
+
+            foreach ($result['data'] as $item){
+
+                if(empty($item['table_data'])){
+                    $list_data[] = $item;
+                    continue;
+                }
+
+                $table_data = json_decode($item['table_data']);
+                foreach ($table_data as $table){
+
+                    $table_title_up = strtoupper($table['title']);
+                    $item['tableTitle'][] = substr($table['title'],strpos($table['title'],' '));
+                    if(strstr($table_title_up,'BUP')){
+                        $item['tableTitle']['bup'][] = $table['val'];
+                    }elseif(strstr($table_title_up,'BULK')){
+                        $item['tableTitle']['bulk'][] = $table['val'];
+                    }
+                }
+                $list_data[] = $item;
+            }
+        }
         $res_data = [
             'long_distance_fuel_costs'=>$result['data'][0]['long_fuel'] ?? '',
             'short_distance_fuel_costs'=>$result['data'][0]['short_fuel'] ?? '',
             'expire_date'=>date('Y-m-d'),
-            'list'=>$result['data']
+            'list'=>$list_data
         ];
 
 

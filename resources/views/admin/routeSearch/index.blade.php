@@ -20,6 +20,57 @@
         right: 75px;
         top: 65px;
     }
+    .layui-table-body .layui-table-cell{
+        height: 80px;
+        line-height:80px;
+    }
+    .layui-table-hover ,.layui-table tbody tr:hover{
+        background-color: transparent;
+    }
+    .layui-table tbody .child_table tr:hover{
+        background-color:  #f2f2f2;
+    }
+    .child_table{
+        overflow:auto;
+        display: block;
+        margin-top: 10px;
+    }
+    .layui-table-view .child_table th,.layui-table-view .child_table td{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 15px;
+        position: relative;
+        box-sizing: border-box;
+        min-width: 111px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #e6e6e6;
+    }
+
+    .editBox_delete_btn{
+        font-size: 16px;
+        height: 38px;
+        color: #FF5722;
+        line-height: 38px;
+        cursor: pointer;
+        margin-left: -3px;
+    }
+    .editBox_item {
+        width: 50%;
+        margin-right: 0 !important;
+        float: left;
+    }
+    .editBox_item .title_raw {
+        width: 100px;
+    }
+    .editBox_item .body_raw {
+        width: 157px;
+    }
+
+        .layui-form-item {}
     </style>
 </head>
 <body class="layui-layout-body">
@@ -64,19 +115,19 @@
 
 
 
-                <div class="test-table-reload-btn" id="import_excel" style="margin-bottom: 10px;float:left">
-                    <button class="layui-btn">导入航线</button>
-                </div>
-                <div class="test-table-reload-btn" id="add_search" style=" margin-left:10px;margin-bottom: 10px;float:left">
+
+                <div class="test-table-reload-btn" id="add_search" style="margin-bottom: 10px;float:left">
                     <button class="layui-btn">添加航线</button>
+                </div>
+                <div class="test-table-reload-btn" id="import_excel" style=" margin-left:10px;margin-bottom: 10px;float:left">
+                    <button class="layui-btn">导入航线</button>
                 </div>
                 <div class="test-table-reload-btn "  style=" margin-left:10px;margin-bottom: 10px;float:left">
                     <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/Data Template.xlsx">下载数据模板</a>
                 </div>
                 <div class="test-table-reload-btn" style="margin-bottom: 10px;float:right">
-                    目的地：
                     <div class="layui-inline" style="width:350px;">
-                        <input class="layui-input" name="keyWord" autocomplete="off" >
+                        <input class="layui-input" name="keyWord" autocomplete="off" placeholder="请输入航空公司或目的地">
                     </div>
                     <button class="layui-btn reloadBtn">查询</button>
                 </div>
@@ -113,7 +164,7 @@
 
     <div id="editBox" style="display: none; padding: 10px;padding-left: 30px;">
         <div class="layui-form" >
-            <form id="editSearch"  enctype="multipart/form-data" style="max-height: 505px !important;">
+            <form id="editSearch"  enctype="multipart/form-data" style="max-height: 505px !important;overflow-y: scroll;">
 
             <input type="hidden" name="s_id" >
             <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -150,181 +201,7 @@
             </div>
 
 
-            <div class="layui-form-item">
 
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">BUP MIN :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_min" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">BUP N :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_n" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">BUP +45K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_45k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 13px;">BUP +100K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_100k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 14px;">BUP +500K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_500k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 5px;">BUP +1000K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_1000k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 6px;">BUP +2000K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_2000k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 3px;">FSC（BUP） :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_fule" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="layui-form-item">
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 12px;">SC（BUP） :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="board_security" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-            </div>
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">BULK MIN :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_min" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" >BULK N :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_n" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 13px;">BULK +45K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_45k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 6px;">BULK +100K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_100k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 5px;">BULK +500K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_500k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">BULK +1000K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_1000k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">BULK +2000K :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_2000k" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-6px;">FSC（BULK） :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_fule" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="layui-form-item">
-
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 3px;">SC（BULK） :</label>
-                    <div class="layui-input-inline" style="width: 182px;">
-                        <input type="text" name="divergence_security" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-            </div>
 
             <div class="layui-form-item">
 
@@ -347,7 +224,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">LONG HAUL FUEL :</label>
                     <div class="layui-input-inline" style="width: 150px;">
-                        <input type="text" name="divergence_2000k" autocomplete="off" class="layui-input">
+                        <input type="text" name="long_fuel" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -355,7 +232,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-7px;">SHORT HAUL FUEL :</label>
                     <div class="layui-input-inline" style="width: 150px;">
-                        <input type="text" name="divergence_fule" autocomplete="off" class="layui-input">
+                        <input type="text" name="short_fuel" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -372,6 +249,34 @@
                 </div>
             </div>
 
+            <div id="edit_input_box" class="clearfix">
+
+            </div>
+            <div class="layui-form-item">
+
+
+                <div class="layui-inline">
+
+                    <label class="layui-form-label add_input_box" style="width: auto;color: #1E9FFF;cursor: pointer;padding-left: 0 ">
+                        <i class="layui-icon" style="font-size: 16px; color: #1E9FFF;">&#xe654;</i>
+                        Add Input Box
+                    </label>
+                </div>
+
+            </div>
+
+            {{--<div class="layui-form-item">--}}
+                {{--<div class="layui-inline editBox_item">--}}
+                    {{--<div class="layui-input-inline title_raw">--}}
+                        {{--<input type="text" name="divergence_fule" autocomplete="off" class="layui-input">--}}
+                    {{--</div>--}}
+                    {{--<span style="float: left;width: 13px;height: 38px;line-height: 38px;">  :</span>--}}
+                    {{--<div class="layui-input-inline body_raw">--}}
+                        {{--<input type="text" name="divergence_fule" autocomplete="off" class="layui-input">--}}
+                    {{--</div>--}}
+                    {{--<a  class="layui-icon editBox_delete_btn" >&#xe640;</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             {{--<div class="layui-layer-btn layui-layer-btn-" style="padding-top: 0;">--}}
                 {{--<a class="layui-layer-btn0">确定</a>--}}
@@ -462,7 +367,46 @@
         });
         //new
 
+        $('.add_input_box').click(function () {
 
+
+
+            var input_box = '   <div class="layui-inline editBox_item">\n' +
+                '                    <div class="layui-input-inline title_raw">\n' +
+                '                        <input type="text" name="td_title[]" autocomplete="off" class="layui-input">\n' +
+                '                    </div>\n' +
+                '                    <span style="float: left;width: 13px;height: 38px;line-height: 38px;">  :</span>\n' +
+                '                    <div class="layui-input-inline body_raw">\n' +
+                '                        <input type="text" name="td_body[]" autocomplete="off" class="layui-input">\n' +
+                '                    </div>\n' +
+                '                    <a href="javascript:;" class="layui-icon editBox_delete_btn" >&#xe640;</a>\n' +
+                '                </div>\n';
+
+
+            if($('.editBox_item').length % 2 < 1){
+                //新开一个
+                input_box = '<div class="layui-form-item">\n' +input_box + '</div>';
+                $('#edit_input_box').append(input_box);
+            }else{
+                //在同一行在加一个
+
+                $('#edit_input_box .layui-form-item:last').append(input_box);
+            }
+
+            $('#editSearch').scrollTop($('#editSearch').get()[0].scrollHeight);
+            $('#edit_input_box .layui-form-item:last .title_raw input').focus();
+        })
+
+        $(document).on('click','.editBox_delete_btn',function () {
+
+            var box_item = $(this).parent();
+            console.log();
+            if(box_item.siblings().length > 0){
+                box_item.remove();
+            }else{
+                box_item.parent().remove();
+            }
+        })
         $('#add_search').click(function () {
             $('#editBox input[type=text],#editBox textarea').val('');
 
@@ -495,7 +439,7 @@
                             }else{
                                 layer.msg(res.msg, {icon: 2});
                             }
-                            layer.close(index);
+                            // layer.close(index);
                             tableReload();
                         })
                         .fail(function() {
@@ -506,6 +450,7 @@
                 end: function (index) {
                     //    - 层销毁后触发的回调
                     // $('#userlist_keyword').val('');
+                    $('#edit_input_box').html('');
                     layer.close(index);
 
                 },
@@ -519,6 +464,8 @@
             elem: '#demo',
             url: '{{ route("admin.routeSearch.index")  }}',
             page: true,
+            limit: 5,
+            limits: [5,10,20,30,40,50,60,70,80,90],
             // width: 892,
             parseData: function(res){ //res 即为原始返回的数据
                 return {
@@ -529,33 +476,47 @@
                 };
             },
             cols: [[
-                {field: 'company_name', title: 'AIRLINE', width:181, fixed: 'left'},
-                {field: 'destination', title: 'DESTINATION', width:181, fixed: 'left'},
-                {field: 'air_line', title: 'ROUTE', width:181, fixed: 'left'},
-                {field: 'board_min', title: 'BUP MIN', width:181},
-                {field: 'board_n', title: 'BUP N', width:181},
-                {field: 'board_45k', title: 'BUP +45K', width:181},
-                {field: 'board_100k', title: 'BUP +100K', width:181},
-                {field: 'board_500k', title: 'BUP +500K', width:181},
-                {field: 'board_1000k', title: 'BUP +1000K', width:181},
-                {field: 'board_2000k', title: 'BUP +2000K', width:181},
-                {field: 'board_fule', title: 'FSC（BUP）', width:181},
-                {field: 'board_security', title: 'SC（BUP）', width:181},
-                {field: 'divergence_min', title: 'BULK MIN', width:181},
-                {field: 'divergence_n', title: 'BULK N', width:181},
-                {field: 'divergence_45k', title: 'BULK +45K', width:181},
-                {field: 'divergence_100k', title: 'BULK +100K', width:181},
-                {field: 'divergence_500k', title: 'BULK +500K', width:181},
-                {field: 'divergence_1000k', title: 'BULK +1000K', width:181},
-                {field: 'divergence_2000k', title: 'BULK +2000K', width:181},
-                {field: 'divergence_fule', title: 'FSC（BULK）', width:181},
-                {field: 'divergence_security', title: 'SC（BULK）', width:181},
+                {field: 'company_name', title: 'AIRLINE', width:151},
+                {field: 'destination', title: 'DESTINATION', width:125},
+                {field: 'air_line', title: 'ROUTE', width:181},
+                {
+                    field: 'table_data', title: 'Table Data', width: 2100, templet: function (d) {
+
+                        var table_data = JSON.parse(d.table_data);
+                        if(!table_data){
+                            return '';
+                        }
+                        var table_head = '';
+                        var table_body = '';
+                        $.each(table_data, function (k, v) {
+                            table_head += '<th>'+v.title+'</th>';
+                            table_body += '<td>'+v.val+'</td>';
+                        });
+                        var child_htm = '<div class="layui-form" >\n' +
+                            '  <table class="layui-table child_table">\n' +
+                            '    <thead>\n' +
+                            '      <tr>\n' +
+                            table_head +
+                            '      </tr> \n' +
+                            '    </thead>\n' +
+                            '    <tbody>\n' +
+                            '      <tr>\n' +
+                            table_body +
+                            '      </tr>\n' +
+                            '    </tbody>\n' +
+                            '  </table>\n' +
+                            '</div>'
+                        ;
+                        // console.error(child_htm );
+                        return child_htm;
+                    }
+                },
                 {field: 'effective_date', title: 'EFFECTIVE DATE', width:181},
                 {field: 'remark', title: 'REMARK', width:181},
                 {field: 'long_fuel', title: 'LONG HAUL FUEL', width:181},
                 {field: 'short_fuel', title: 'SHORT HAUL FUEL', width:181},
                 {field: 'created_at', title: 'Created Date', width:181},
-                {fixed: 'right',title: 'Operation', width:141, align:'center', toolbar: '#tableBarButton'}
+                {fixed: 'right',title: 'Operation', width:121, align:'center', toolbar: '#tableBarButton'}
             ]],
         });
 
@@ -577,34 +538,45 @@
                     if (res.code == 200) {
 
                         var res_data = res.data;
+                        var input_box = '';
 
                         $('input[name=company_name]').val(res_data.company_name);
                         $('input[name=air_line]').val(res_data.air_line);
-                        $('input[name=board_45k]').val(res_data.board_45k);
-                        $('input[name=board_100k]').val(res_data.board_100k);
-                        $('input[name=board_500k]').val(res_data.board_500k);
-                        $('input[name=board_1000k]').val(res_data.board_1000k);
-                        $('input[name=board_2000k]').val(res_data.board_2000k);
-                        $('input[name=board_fule]').val(res_data.board_fule);
-                        $('input[name=board_min]').val(res_data.board_min);
-                        $('input[name=board_n]').val(res_data.board_n);
-                        $('input[name=board_security]').val(res_data.board_security);
                         $('input[name=destination]').val(res_data.destination);
-                        $('input[name=divergence_45k]').val(res_data.divergence_45k);
-                        $('input[name=divergence_100k]').val(res_data.divergence_100k);
-                        $('input[name=divergence_500k]').val(res_data.divergence_500k);
-                        $('input[name=divergence_1000k]').val(res_data.divergence_1000k);
-                        $('input[name=divergence_2000k]').val(res_data.divergence_2000k);
-                        $('input[name=divergence_fule]').val(res_data.divergence_fule);
-                        $('input[name=divergence_min]').val(res_data.divergence_min);
-                        $('input[name=divergence_n]').val(res_data.divergence_n);
-                        $('input[name=divergence_security]').val(res_data.divergence_security);
                         $('input[name=effective_date]').val(res_data.effective_date);
                         $('input[name=long_fuel]').val(res_data.long_fuel);
                         $('textarea[name=remark]').val(res_data.remark);
                         $('input[name=short_fuel]').val(res_data.short_fuel);
                         $('input[name=s_id]').val(res_data.id);
+                        if(res_data.table_data){
 
+
+                            var table_data = JSON.parse(res_data.table_data);
+                            $.each(table_data, function (k, v) {
+
+
+                                var box_htm = '   <div class="layui-inline editBox_item">\n' +
+                                    '                    <div class="layui-input-inline title_raw">\n' +
+                                    '                        <input type="text" name="td_title[]" autocomplete="off" value="'+v.title+'" class="layui-input">\n' +
+                                    '                    </div>\n' +
+                                    '                    <span style="float: left;width: 13px;height: 38px;line-height: 38px;">  :</span>\n' +
+                                    '                    <div class="layui-input-inline body_raw">\n' +
+                                    '                        <input type="text" name="td_body[]" value="'+v.val+'" autocomplete="off" class="layui-input">\n' +
+                                    '                    </div>\n' +
+                                    '                    <a href="javascript:;" class="layui-icon editBox_delete_btn" >&#xe640;</a>\n' +
+                                    '                </div>\n';
+
+                                if(k % 2 < 1){
+                                    input_box += '<div class="layui-form-item">' + box_htm;
+                                }else{
+                                    input_box +=  box_htm + '</div>';
+                                }
+
+                            });
+
+                            $('#edit_input_box').html(input_box);
+
+                        }
                         layer.open({
                             type: 1,
                             title: 'edit',
@@ -645,8 +617,8 @@
                             ,end: function (index) {
                                 //    - 层销毁后触发的回调
                                 // $('#userlist_keyword').val('');
+                                $('#edit_input_box').html('');
                                 layer.close(index);
-
                             },
                             cancel:function(index){
                                 layer.close(index);
