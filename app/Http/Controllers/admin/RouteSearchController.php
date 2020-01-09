@@ -55,56 +55,68 @@ class RouteSearchController extends Controller
                 //获取excel 数据
                 Excel::load($file->getPathname(), function ($reader) use (&$data_arr,&$total_num,&$success_num,&$error_index) {
 
+
                     //这里的$sheet变量就是sheet对象了,excel里的每一个sheet
                     $reader->each(function ($sheet) use (&$data_arr,&$total_num,&$success_num,&$error_index) {
+
                         $total_num++;
 
                         $excel_data = $sheet->toArray();
-                        if(empty($excel_data['AIRLINE']) || empty($excel_data['DESTINATION']) || empty($excel_data['ROUTE'])){
-                            $error_index[] = ['index'=>$total_num,'type'=>1];
-                            return true;
-                        }
 
-                        $excel_data = $this->dataFormater($excel_data);
+                        if(empty($excel_data)){
+                            return false;
+                        }
 
                         $dateTime = date('Y-m-d H:i:s');
-                        $sql_data =  [
-                            'company_name' => $excel_data['AIRLINE'],
-                            'destination' => $excel_data['DESTINATION'],
-                            'air_line' => $excel_data['ROUTE'],
-                            'effective_date' => $excel_data['EFFECTIVE DATE']->toDateString(),
-                            'remark' => $excel_data['REMARK'],
-                            'long_fuel' => $excel_data['LONG HAUL FUEL'],
-                            'short_fuel' => $excel_data['SHORT HAUL FUEL'],
-                            'bup_fsc' => $excel_data['BUP FSC'],
-                            'bup_sc' => $excel_data['BUP SC'],
-                            'bulk_fsc' => $excel_data['BULK FSC'],
-                            'bulk_sc' => $excel_data['BULK SC'],
-                            'table_data'=>$this->getExcelTableData($excel_data),
-                            'created_at' => $dateTime,
-                            'updated_at' => $dateTime
-                        ];
+                        foreach ($excel_data as $e_data){
 
-                        $search = AlRouteSearch::where('company_name',$sql_data['company_name'])
-                                            ->where('destination',$sql_data['destination'])
-                                            ->where('air_line',$sql_data['air_line'])
-                                            ->first();
-
-
-                        if($search){
-
-                            unset($sql_data['created_at']);
-                            $res = $search->update($sql_data);
-                            if($res){
-                                $success_num++;
-                            }else{
-                                $error_index[] = ['index'=>$total_num,'type'=>2];
+                            if(empty($e_data['AIRLINE']) || empty($e_data['DESTINATION']) || empty($e_data['ROUTE'])){
+                                $error_index[] = ['index'=>$total_num,'type'=>1];
+                                return true;
                             }
 
-                        }else{
-                            $data_arr[] = $sql_data;
-                            $success_num++;
+                            $e_data = $this->dataFormater($e_data);
+
+                            $sql_data =  [
+                                'company_name' => $e_data['AIRLINE'],
+                                'destination' => $e_data['DESTINATION'],
+                                'air_line' => $e_data['ROUTE'],
+                                'effective_date' => $e_data['EFFECTIVE DATE']->toDateString(),
+                                'remark' => $e_data['REMARK'],
+                                'long_fuel' => $e_data['LONG HAUL FUEL'],
+                                'short_fuel' => $e_data['SHORT HAUL FUEL'],
+                                'bup_fsc' => $e_data['BUP FSC'],
+                                'bup_sc' => $e_data['BUP SC'],
+                                'bulk_fsc' => $e_data['BULK FSC'],
+                                'bulk_sc' => $e_data['BULK SC'],
+                                'table_data'=>$this->getExcelTableData($e_data),
+                                'created_at' => $dateTime,
+                                'updated_at' => $dateTime
+                            ];
+
+                            $search = AlRouteSearch::where('company_name',$sql_data['company_name'])
+                                ->where('destination',$sql_data['destination'])
+                                ->where('air_line',$sql_data['air_line'])
+                                ->first();
+
+
+                            if($search){
+
+                                unset($sql_data['created_at']);
+                                $res = $search->update($sql_data);
+                                if($res){
+                                    $success_num++;
+                                }else{
+                                    $error_index[] = ['index'=>$total_num,'type'=>2];
+                                }
+
+                            }else{
+                                $data_arr[] = $sql_data;
+                                $success_num++;
+                            }
                         }
+
+
 
 
 
