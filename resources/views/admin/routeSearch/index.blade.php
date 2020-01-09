@@ -133,6 +133,9 @@
                 <div class="test-table-reload-btn "  style=" margin-left:10px;margin-bottom: 10px;float:left">
                     <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/Data Template.xlsx">下载数据模板</a>
                 </div>
+                <div class="test-table-reload-btn "  style=" margin-left:10px;margin-bottom: 10px;float:left">
+                    <a class="layui-btn  layui-btn-normal" href="{{ config('view.admin_assets') }}/Tutorial examples.zip">下载教程</a>
+                </div>
                 <div class="test-table-reload-btn" style="margin-bottom: 10px;float:right">
                     <div class="layui-inline" style="width:350px;">
                         <input class="layui-input" name="keyWord" autocomplete="off" placeholder="请输入航空公司或目的地">
