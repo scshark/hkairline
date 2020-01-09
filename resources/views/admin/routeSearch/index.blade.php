@@ -208,8 +208,45 @@
 
             </div>
 
+            <div class="layui-form-item">
 
 
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">BUP FSC :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="bup_fsc" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0;margin-left: -2px">BUP SC:</label>
+                    <div class="layui-input-inline" style="width: 222px;">
+                        <input type="text" name="bup_sc" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">BULK FSC :</label>
+                    <div class="layui-input-inline" style="width: 182px;">
+                        <input type="text" name="bulk_fsc" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;padding-left: 0;margin-left: -2px">BULK SC:</label>
+                    <div class="layui-input-inline" style="width: 214px;">
+                        <input type="text" name="bulk_sc" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
 
             <div class="layui-form-item">
 
@@ -489,7 +526,7 @@
                 {field: 'destination', title: 'DESTINATION', width:125},
                 {field: 'air_line', title: 'ROUTE', width:181},
                 {
-                    field: 'table_data', title: 'Table Data', width: 2100, templet: function (d) {
+                    field: 'table_data', title: 'Table Data', width: 1800, templet: function (d) {
 
                         var table_data = JSON.parse(d.table_data);
                         if(!table_data){
@@ -516,10 +553,13 @@
                             '  </table>\n' +
                             '</div>'
                         ;
-                        // console.error(child_htm );
                         return child_htm;
                     }
                 },
+                {field: 'bup_fsc', title: 'BUP FSC', width:181},
+                {field: 'bup_sc', title: 'BUP SC', width:181},
+                {field: 'bulk_fsc', title: 'BULK FSC', width:181},
+                {field: 'bulk_sc', title: 'BULK SC', width:181},
                 {field: 'effective_date', title: 'EFFECTIVE DATE', width:181},
                 {field: 'remark', title: 'REMARK', width:181},
                 {field: 'long_fuel', title: 'LONG HAUL FUEL', width:181},

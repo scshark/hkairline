@@ -76,6 +76,10 @@ class RouteSearchController extends Controller
                             'remark' => $excel_data['REMARK'],
                             'long_fuel' => $excel_data['LONG HAUL FUEL'],
                             'short_fuel' => $excel_data['SHORT HAUL FUEL'],
+                            'bup_fsc' => $excel_data['BUP FSC'],
+                            'bup_sc' => $excel_data['BUP SC'],
+                            'bulk_fsc' => $excel_data['BULK FSC'],
+                            'bulk_sc' => $excel_data['BULK SC'],
                             'table_data'=>$this->getExcelTableData($excel_data),
                             'created_at' => $dateTime,
                             'updated_at' => $dateTime
@@ -169,6 +173,9 @@ class RouteSearchController extends Controller
         $table_data = [];
         foreach ($data as $key=>$item) {
 
+            if(in_array($key,['BUP FSC','BUP SC','BULK FSC','BULK SC'])){
+                continue;
+            }
             if(strstr($key,'BUP') || strstr($key,'BULK')){
                 $table_data[] = ['title'=>$key,'val'=>$item];
             }
@@ -302,6 +309,10 @@ class RouteSearchController extends Controller
             'effective_date'=>$request_data['effective_date'],
             'long_fuel'=>$request_data['long_fuel'],
             'short_fuel'=>$request_data['short_fuel'],
+            'bup_fsc'=>$request_data['bup_fsc'],
+            'bup_sc'=>$request_data['bup_sc'],
+            'bulk_fsc'=>$request_data['bulk_fsc'],
+            'bulk_sc'=>$request_data['bulk_sc'],
             'remark'=>$request_data['remark'],
             'table_data'=>json_encode($table_data)
         ];
@@ -367,6 +378,10 @@ class RouteSearchController extends Controller
             'long_fuel'=>$request_data['long_fuel'],
             'short_fuel'=>$request_data['short_fuel'],
             'remark'=>$request_data['remark'],
+            'bup_fsc'=>$request_data['bup_fsc'],
+            'bup_sc'=>$request_data['bup_sc'],
+            'bulk_fsc'=>$request_data['bulk_fsc'],
+            'bulk_sc'=>$request_data['bulk_sc'],
             'table_data'=>json_encode($table_data)
         ];
 
