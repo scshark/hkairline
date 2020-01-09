@@ -596,6 +596,10 @@
                         $('input[name=long_fuel]').val(res_data.long_fuel);
                         $('textarea[name=remark]').val(res_data.remark);
                         $('input[name=short_fuel]').val(res_data.short_fuel);
+                        $('input[name=bup_fsc]').val(res_data.bup_fsc);
+                        $('input[name=bup_sc]').val(res_data.bup_sc);
+                        $('input[name=bulk_fsc]').val(res_data.bulk_fsc);
+                        $('input[name=bulk_sc]').val(res_data.bulk_sc);
                         $('input[name=s_id]').val(res_data.id);
                         if(res_data.table_data){
 
