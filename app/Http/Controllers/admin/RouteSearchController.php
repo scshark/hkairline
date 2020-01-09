@@ -59,7 +59,6 @@ class RouteSearchController extends Controller
                     //这里的$sheet变量就是sheet对象了,excel里的每一个sheet
                     $reader->each(function ($sheet) use (&$data_arr,&$total_num,&$success_num,&$error_index) {
 
-                        $total_num++;
 
                         $excel_data = $sheet->toArray();
 
@@ -69,6 +68,7 @@ class RouteSearchController extends Controller
 
                         $dateTime = date('Y-m-d H:i:s');
                         foreach ($excel_data as $e_data){
+                            $total_num++;
 
                             if(empty($e_data['AIRLINE']) || empty($e_data['DESTINATION']) || empty($e_data['ROUTE'])){
                                 $error_index[] = ['index'=>$total_num,'type'=>1];
