@@ -126,6 +126,7 @@ class UserController extends Controller
                     continue;
                 }
 
+                $table_data_formate = [];
 
                 //数据格式转换
                 foreach ($table_data as $table) {
