@@ -118,12 +118,14 @@ class UserController extends Controller
 
             foreach ($result['data'] as $item) {
 
-                if (empty($item['table_data'])) {
+                $table_data = (empty($item['table_data']))?'':json_decode($item['table_data'], true);
+
+
+                if (empty($table_data)) {
                     $list_data[] = $item;
                     continue;
                 }
 
-                $table_data = json_decode($item['table_data'], true);
 
                 //数据格式转换
                 foreach ($table_data as $table) {
