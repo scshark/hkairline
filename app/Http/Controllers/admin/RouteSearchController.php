@@ -433,7 +433,7 @@ class RouteSearchController extends Controller
         }
 
 
-        $res = AlRouteSearch::where('air_line',$search['air_line'])->delete();
+        $res = AlRouteSearch::where('company_name',$search['company_name'])->delete();
 
 
         if($res){
