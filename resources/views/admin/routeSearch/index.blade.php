@@ -488,7 +488,7 @@
                             }else{
                                 layer.msg(res.msg, {icon: 2});
                             }
-                            // layer.close(index);
+                            layer.close(index);
                             tableReload();
                         })
                         .fail(function() {
