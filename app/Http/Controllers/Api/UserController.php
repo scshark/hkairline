@@ -114,9 +114,21 @@ class UserController extends Controller
 
 
         $list_data = [];
+
+        $fuel_info = [];
         if (!empty($result['data'])) {
 
             foreach ($result['data'] as $item) {
+
+                if(empty($fuel_info['long_fuel']) && !empty($item['long_fuel'])){
+                    $fuel_info['long_fuel'] = $item['long_fuel'];
+                }
+                if(empty($fuel_info['short_fuel']) && !empty($item['short_fuel'])){
+                    $fuel_info['short_fuel'] = $item['short_fuel'];
+                }
+                if(empty($fuel_info['fuel_effective_date']) && !empty($item['fuel_effective_date'])){
+                    $fuel_info['fuel_effective_date'] = $item['fuel_effective_date'];
+                }
 
                 $table_data = (empty($item['table_data']))?'':json_decode($item['table_data'], true);
 
@@ -151,9 +163,9 @@ class UserController extends Controller
             }
         }
         $res_data = [
-            'long_distance_fuel_costs' => $result['data'][0]['long_fuel'] ?? '',
-            'short_distance_fuel_costs' => $result['data'][0]['short_fuel'] ?? '',
-            'expire_date' => date('Y-m-d'),
+            'long_distance_fuel_costs' => $fuel_info['long_fuel'] ?? '',
+            'short_distance_fuel_costs' => $fuel_info['short_fuel'] ?? '',
+            'expire_date' => $fuel_info['fuel_effective_date'] ?? '',
             'list' => $list_data
         ];
 

@@ -83,8 +83,8 @@ class RouteSearchController extends Controller
                                 'air_line' => $e_data['ROUTE'],
                                 'effective_date' => $e_data['EFFECTIVE DATE']->toDateString(),
                                 'remark' => $e_data['REMARK'],
-                                'long_fuel' => $e_data['LONG HAUL FUEL'],
-                                'short_fuel' => $e_data['SHORT HAUL FUEL'],
+//                                'long_fuel' => $e_data['LONG HAUL FUEL'],
+//                                'short_fuel' => $e_data['SHORT HAUL FUEL'],
                                 'bup_fsc' => $e_data['BUP FSC'],
                                 'bup_sc' => $e_data['BUP SC'],
                                 'bulk_fsc' => $e_data['BULK FSC'],
@@ -319,8 +319,8 @@ class RouteSearchController extends Controller
             'destination'=>$request_data['destination'],
             'air_line'=>$request_data['air_line'],
             'effective_date'=>$request_data['effective_date'],
-            'long_fuel'=>$request_data['long_fuel'],
-            'short_fuel'=>$request_data['short_fuel'],
+//            'long_fuel'=>$request_data['long_fuel'],
+//            'short_fuel'=>$request_data['short_fuel'],
             'bup_fsc'=>$request_data['bup_fsc'],
             'bup_sc'=>$request_data['bup_sc'],
             'bulk_fsc'=>$request_data['bulk_fsc'],
@@ -387,8 +387,8 @@ class RouteSearchController extends Controller
             'destination'=>$request_data['destination'],
             'air_line'=>$request_data['air_line'],
             'effective_date'=>$request_data['effective_date'],
-            'long_fuel'=>$request_data['long_fuel'],
-            'short_fuel'=>$request_data['short_fuel'],
+//            'long_fuel'=>$request_data['long_fuel'],
+//            'short_fuel'=>$request_data['short_fuel'],
             'remark'=>$request_data['remark'],
             'bup_fsc'=>$request_data['bup_fsc'],
             'bup_sc'=>$request_data['bup_sc'],
@@ -451,4 +451,73 @@ class RouteSearchController extends Controller
 
     }
 
+
+    public function fuelInfo(Request $request){
+
+        $sid = $request->input('s_id');
+
+        if (empty($sid)) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '参数错误',
+            ]);
+        }
+        $search = AlRouteSearch::where('id', $sid)->first();
+
+        if (!$search) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '未找到此记录',
+            ]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'msg' => '查询成功',
+            'data'=>$search
+        ]);
+
+    }
+
+    public function editFuel(Request $request){
+
+        $request_data = $request->input();
+        $sid = $request->input('fuel_s_id');
+
+        if (empty($sid)) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '参数错误',
+            ]);
+        }
+        $search = AlRouteSearch::where('id', $sid)->first();
+
+        if (!$search) {
+            return response()->json([
+                'code' => 10001,
+                'msg' => '未找到此记录',
+            ]);
+        }
+
+
+        $updata_data = [
+            'long_fuel'=>$request_data['long_fuel'],
+            'short_fuel'=>$request_data['short_fuel'],
+            'fuel_effective_date'=>$request_data['fuel_effective_date']
+        ];
+        $res = AlRouteSearch::where('destination',$search->destination)->update($updata_data);
+
+        if($res){
+            return response()->json([
+                'code' => 200,
+                'msg' => '修改成功',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 200,
+                'msg' => '修改失败',
+            ]);
+        }
+
+    }
 }

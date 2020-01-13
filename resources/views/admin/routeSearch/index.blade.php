@@ -79,6 +79,7 @@
         padding: 0;
         margin: -5px 5px 0 !important;
     }
+
     </style>
 </head>
 <body class="layui-layout-body">
@@ -172,6 +173,43 @@
         </div>
     </div>
 
+    <div id="editFuelBox" style="display: none; padding: 10px;padding-left: 30px;">
+        <div class="layui-form" >
+            <form id="editFuel"  enctype="multipart/form-data" >
+
+                <input type="hidden" name="fuel_s_id" >
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">LONG HAUL FUEL :</label>
+                        <div class="layui-input-inline" style="width: 150px;">
+                            <input type="text" name="long_fuel" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-7px;">SHORT HAUL FUEL :</label>
+                        <div class="layui-input-inline" style="width: 150px;">
+                            <input type="text" name="short_fuel" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">FUEL EFFECTIVE DATE :</label>
+                        <div class="layui-input-inline" style="width: 430px;">
+                            <input type="text" name="fuel_effective_date" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
 
     <div id="editBox" style="display: none; padding: 10px;padding-left: 30px;">
         <div class="layui-form" >
@@ -266,24 +304,24 @@
             </div>
 
 
-            <div class="layui-form-item">
+            {{--<div class="layui-form-item">--}}
 
 
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">LONG HAUL FUEL :</label>
-                    <div class="layui-input-inline" style="width: 150px;">
-                        <input type="text" name="long_fuel" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
+                {{--<div class="layui-inline">--}}
+                    {{--<label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-2px;">LONG HAUL FUEL :</label>--}}
+                    {{--<div class="layui-input-inline" style="width: 150px;">--}}
+                        {{--<input type="text" name="long_fuel" autocomplete="off" class="layui-input">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
 
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-7px;">SHORT HAUL FUEL :</label>
-                    <div class="layui-input-inline" style="width: 150px;">
-                        <input type="text" name="short_fuel" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
+                {{--<div class="layui-inline">--}}
+                    {{--<label class="layui-form-label" style="width: auto;padding-left: 0px;margin-left:-7px;">SHORT HAUL FUEL :</label>--}}
+                    {{--<div class="layui-input-inline" style="width: 150px;">--}}
+                        {{--<input type="text" name="short_fuel" autocomplete="off" class="layui-input">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             <div class="layui-form-item">
 
@@ -291,7 +329,7 @@
                     <label class="layui-form-label" >REMARK :</label>
                     <div class="layui-input-inline" style="width: 498px;">
                         {{--<input type="text" name="remark" autocomplete="off" class="layui-input">--}}
-                        <textarea name="remark"  class="layui-textarea" style="width:100%;height:250px"></textarea>
+                        <textarea name="remark"  class="layui-textarea" style="width:100%;height:196px"></textarea>
 
                     </div>
                 </div>
@@ -509,6 +547,90 @@
             });
         });
 
+
+        $(document).on('click','.edit_fuel',function () {
+                var s_id = $(this).data('s_id');
+                if(!s_id){
+                    layer.msg('网络繁忙,请刷新页面', {icon: 2});
+                }
+                $.ajax({
+                    url: '{{ route("admin.routeSearch.fuelInfo") }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {_token: '{{csrf_token()}}','s_id':s_id},
+                })
+                .done(function(res) {
+
+                    if (res.code == 200) {
+
+                        var res_data = res.data;
+
+                        $('input[name=fuel_effective_date]').val(res_data.fuel_effective_date);
+                        $('input[name=long_fuel]').val(res_data.long_fuel);
+                        $('input[name=short_fuel]').val(res_data.short_fuel);
+                        $('input[name=fuel_s_id]').val(res_data.id);
+
+
+                        layer.open({
+                            type: 1,
+                            title: '修改燃油费信息',
+                            area: ['710px'], //宽高
+                            content: $('#editFuelBox'),
+                            btn: ['确认', '取消']
+                            ,btn1: function(index) {
+
+                                var formData = new FormData(document.getElementById("editFuel"));
+
+                                $.ajax({
+                                    url: '{{ route("admin.routeSearch.editFuel") }}',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    cache: false,        // 不缓存数据
+                                    processData: false,  // 不处理数据
+                                    contentType: false,  // 不设置内容类型
+                                    data: formData,
+                                })
+                                .done(function(res) {
+                                    if (res.code == 200) {
+                                        layer.msg(res.msg, {icon: 1});
+
+                                    } else if(res.code == 10002) {
+                                        layer.msg(res.msg, {icon: 2});
+                                        return false;
+                                    }else{
+                                        layer.msg(res.msg, {icon: 2});
+                                    }
+                                    layer.close(index);
+                                    tableReload();
+                                })
+                                .fail(function() {
+                                    layer.close(index);
+                                    layer.msg('网络繁忙', {icon: 2});
+                                });
+                            }
+                            ,end: function (index) {
+                                //    - 层销毁后触发的回调
+                                // $('#userlist_keyword').val('');
+                                layer.close(index);
+                            },
+                            cancel:function(index){
+                                layer.close(index);
+                            }
+                        });
+
+                    } else {
+                        layer.msg(res.errmsg, {icon: 2});
+
+                    }
+                })
+                .fail(function() {
+                    layer.msg('网络繁忙', {icon: 2});
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+        });
         table.render({
             elem: '#demo',
             url: '{{ route("admin.routeSearch.index")  }}',
@@ -526,7 +648,15 @@
             },
             cols: [[
                 {field: 'company_name', title: 'AIRLINE', width:151},
-                {field: 'destination', title: 'DESTINATION', width:125},
+                { title: 'DESTINATION', width:128, templet: function (d) {
+
+                        var des_htm = '<span class="destination_name">'+d.destination+'</span>' +
+                            '<label class="layui-form-label edit_fuel" data-s_id ='+d.id+' style="width: auto;color: #1E9FFF;cursor: pointer;padding: 0 ">\n' +
+                            '                        修改燃油费信息\n' +
+                            '                    </label>';
+                        return des_htm;
+                    }
+                },
                 {field: 'air_line', title: 'ROUTE', width:181},
                 {
                     field: 'table_data', title: 'Table Data', width: 1800, templet: function (d) {
@@ -567,6 +697,7 @@
                 {field: 'remark', title: 'REMARK', width:181},
                 {field: 'long_fuel', title: 'LONG HAUL FUEL', width:181},
                 {field: 'short_fuel', title: 'SHORT HAUL FUEL', width:181},
+                {field: 'fuel_effective_date', title: 'FUEL EFFECTIVE DATE', width:191},
                 {field: 'created_at', title: 'Created Date', width:181},
                 {fixed: 'right',title: 'Operation', width:121, align:'center', toolbar: '#tableBarButton'}
             ]],
@@ -596,9 +727,9 @@
                         $('input[name=air_line]').val(res_data.air_line);
                         $('input[name=destination]').val(res_data.destination);
                         $('input[name=effective_date]').val(res_data.effective_date);
-                        $('input[name=long_fuel]').val(res_data.long_fuel);
+                        // $('input[name=long_fuel]').val(res_data.long_fuel);
                         $('textarea[name=remark]').val(res_data.remark);
-                        $('input[name=short_fuel]').val(res_data.short_fuel);
+                        // $('input[name=short_fuel]').val(res_data.short_fuel);
                         $('input[name=bup_fsc]').val(res_data.bup_fsc);
                         $('input[name=bup_sc]').val(res_data.bup_sc);
                         $('input[name=bulk_fsc]').val(res_data.bulk_fsc);
