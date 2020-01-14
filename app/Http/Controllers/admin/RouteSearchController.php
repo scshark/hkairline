@@ -482,22 +482,22 @@ class RouteSearchController extends Controller
     public function editFuel(Request $request){
 
         $request_data = $request->input();
-        $sid = $request->input('fuel_s_id');
-
-        if (empty($sid)) {
-            return response()->json([
-                'code' => 10001,
-                'msg' => '参数错误',
-            ]);
-        }
-        $search = AlRouteSearch::where('id', $sid)->first();
-
-        if (!$search) {
-            return response()->json([
-                'code' => 10001,
-                'msg' => '未找到此记录',
-            ]);
-        }
+//        $sid = $request->input('fuel_s_id');
+//
+//        if (empty($sid)) {
+//            return response()->json([
+//                'code' => 10001,
+//                'msg' => '参数错误',
+//            ]);
+//        }
+//        $search = AlRouteSearch::where('id', $sid)->first();
+//
+//        if (!$search) {
+//            return response()->json([
+//                'code' => 10001,
+//                'msg' => '未找到此记录',
+//            ]);
+//        }
 
 
         $updata_data = [
@@ -505,7 +505,7 @@ class RouteSearchController extends Controller
             'short_fuel'=>$request_data['short_fuel'],
             'fuel_effective_date'=>$request_data['fuel_effective_date']
         ];
-        $res = AlRouteSearch::where('destination',$search->destination)->update($updata_data);
+        $res = AlRouteSearch::update($updata_data);
 
         if($res){
             return response()->json([
