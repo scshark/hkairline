@@ -454,15 +454,15 @@ class RouteSearchController extends Controller
 
     public function fuelInfo(Request $request){
 
-        $sid = $request->input('s_id');
-
-        if (empty($sid)) {
-            return response()->json([
-                'code' => 10001,
-                'msg' => '参数错误',
-            ]);
-        }
-        $search = AlRouteSearch::where('id', $sid)->first();
+//        $sid = $request->input('s_id');
+//
+//        if (empty($sid)) {
+//            return response()->json([
+//                'code' => 10001,
+//                'msg' => '参数错误',
+//            ]);
+//        }
+        $search =  DB::table('al_fuel')->where('id',1)->first();
 
         if (!$search) {
             return response()->json([
@@ -505,7 +505,7 @@ class RouteSearchController extends Controller
             'short_fuel'=>$request_data['short_fuel'],
             'fuel_effective_date'=>$request_data['fuel_effective_date']
         ];
-        $res = AlRouteSearch::update($updata_data);
+        $res = DB::table('al_fuel')->where('id',1)->update($updata_data);
 
         if($res){
             return response()->json([

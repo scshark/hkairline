@@ -12,6 +12,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use http\Client\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 // use App\Repositorys\CisTeacherRepository;
 // use App\Repositorys\FinaFinaceRepository;
@@ -115,20 +116,19 @@ class UserController extends Controller
 
         $list_data = [];
 
-        $fuel_info = [];
         if (!empty($result['data'])) {
 
             foreach ($result['data'] as $item) {
 
-                if(empty($fuel_info['long_fuel']) && !empty($item['long_fuel'])){
-                    $fuel_info['long_fuel'] = $item['long_fuel'];
-                }
-                if(empty($fuel_info['short_fuel']) && !empty($item['short_fuel'])){
-                    $fuel_info['short_fuel'] = $item['short_fuel'];
-                }
-                if(empty($fuel_info['fuel_effective_date']) && !empty($item['fuel_effective_date'])){
-                    $fuel_info['fuel_effective_date'] = $item['fuel_effective_date'];
-                }
+//                if(empty($fuel_info['long_fuel']) && !empty($item['long_fuel'])){
+//                    $fuel_info['long_fuel'] = $item['long_fuel'];
+//                }
+//                if(empty($fuel_info['short_fuel']) && !empty($item['short_fuel'])){
+//                    $fuel_info['short_fuel'] = $item['short_fuel'];
+//                }
+//                if(empty($fuel_info['fuel_effective_date']) && !empty($item['fuel_effective_date'])){
+//                    $fuel_info['fuel_effective_date'] = $item['fuel_effective_date'];
+//                }
 
                 $table_data = (empty($item['table_data']))?'':json_decode($item['table_data'], true);
 
@@ -162,6 +162,8 @@ class UserController extends Controller
                 $list_data[] = $item;
             }
         }
+
+        $fuel_info = DB::table('al_fuel')->where('id',1)->first();
         $res_data = [
             'long_distance_fuel_costs' => $fuel_info['long_fuel'] ?? '',
             'short_distance_fuel_costs' => $fuel_info['short_fuel'] ?? '',

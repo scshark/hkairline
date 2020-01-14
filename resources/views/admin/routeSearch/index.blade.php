@@ -695,8 +695,8 @@
                 {field: 'bulk_sc', title: 'BULK SC', width:181},
                 {field: 'effective_date', title: 'EFFECTIVE DATE', width:181},
                 {field: 'remark', title: 'REMARK', width:181},
-                {field: 'long_fuel', title: 'LONG HAUL FUEL', width:181},
-                {field: 'short_fuel', title: 'SHORT HAUL FUEL', width:181},
+                // {field: 'long_fuel', title: 'LONG HAUL FUEL', width:181},
+                // {field: 'short_fuel', title: 'SHORT HAUL FUEL', width:181},
                 {field: 'fuel_effective_date', title: 'FUEL EFFECTIVE DATE', width:191},
                 {field: 'created_at', title: 'Created Date', width:181},
                 {fixed: 'right',title: 'Operation', width:121, align:'center', toolbar: '#tableBarButton'}
