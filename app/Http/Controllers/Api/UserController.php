@@ -165,9 +165,9 @@ class UserController extends Controller
 
         $fuel_info = DB::table('al_fuel')->where('id',1)->first();
         $res_data = [
-            'long_distance_fuel_costs' => $fuel_info['long_fuel'] ?? '',
-            'short_distance_fuel_costs' => $fuel_info['short_fuel'] ?? '',
-            'expire_date' => $fuel_info['fuel_effective_date'] ?? '',
+            'long_distance_fuel_costs' => $fuel_info->long_fuel ?? '',
+            'short_distance_fuel_costs' => $fuel_info->short_fuel ?? '',
+            'expire_date' => $fuel_info->fuel_effective_date ?? '',
             'list' => $list_data
         ];
 
