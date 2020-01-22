@@ -114,6 +114,8 @@ class UserController extends Controller
         $result = AlRouteSearch::where("destination", 'like', '%' . $keyword . '%')->orderBy('id', 'desc')->paginate($limit)->toArray();
 
 
+
+        dd($result);
         $list_data = [];
 
         if (!empty($result['data'])) {
