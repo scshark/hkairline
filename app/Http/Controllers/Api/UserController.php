@@ -115,7 +115,6 @@ class UserController extends Controller
 
 
 
-        dd($result);
         $list_data = [];
 
         if (!empty($result['data'])) {
